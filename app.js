@@ -27,8 +27,17 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/books', function(req, res) {
     unirest.get('http://api.nytimes.com/svc/books/v3/lists/hardcover-fiction.json?api-key=' + process.env.NYT_API_KEY)
       .end(function (response) {
-        console.log(response.body);
-        res.end(response.body.toString())
+        var NYTBooks = response.body.results.books;
+        res.render('index', {books: NYTBooks});
+      })
+})
+
+app.get('/books/:id', function(req, res) {
+    unirest.get('http://api.nytimes.com/svc/books/v3/lists.json?list-name=hardcover-fiction&isbn='+ req.params.id + '&api-key=' + process.env.NYT_API_KEY)
+      .end(function (response) {
+        var NYTbook = response.body.results[0].book_details[0]
+        console.log(NYTbook)
+        res.render('show', NYTbook);
       })
 })
 

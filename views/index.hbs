@@ -1,2 +1,7 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+{{#books}}
+  <a href="/books/{{primary_isbn10}}">
+  <article style="background-image: url('{{book_image}}')">
+    <h2>#{{rank}} {{title}}</h2>
+    <h3>by {{author}}</h3>
+  </article></a>
+{{/books}}
